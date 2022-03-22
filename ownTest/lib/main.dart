@@ -3,17 +3,17 @@ import 'dart:html';
 import 'package:flutter/material.dart';
 void main() {
   runApp(Container(
-    color: Colors.blue,
-    child: Center(
-     child: Text(
-       'Hello world',
-       textDirection: TextDirection.ltr,
-       textScaleFactor: 3,
-       style : TextStyle(
-        color: Colors.black
-       )
-     )
-    )
+      color: Colors.blue,
+      child: Center(
+          child: Text(
+              'Hello world',
+              textDirection: TextDirection.ltr,
+              textScaleFactor: 3,
+              style : TextStyle(
+                  color: Colors.black
+              )
+          )
+      )
   ));
   runApp(const MyApp());
 }
@@ -21,7 +21,7 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  static const String _title = 'Flutter Code Sample';
+  static const String _title = 'Flutter Hello world app';
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +65,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      switch(_selectedIndex) {
+        case 0:
+          MaterialPageRoute(builder: (context) => const MyStatefulWidget());
+          break;
+      }
     });
   }
 
@@ -73,13 +78,16 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     return Scaffold(
       body: Container(
           color: Colors.blue,
-          child: Center(
-              child: Text(
-                  'Hello world Welcome on this app',
-                  textDirection: TextDirection.ltr,
-                  textScaleFactor: 3,
-                  style : TextStyle(
-                      color: Colors.black,
+          child: Align(
+              child: Container(
+                  child: Text (
+                      'Hello world Welcome on this app - Home page',
+                      textAlign: TextAlign.center,
+                      textDirection: TextDirection.ltr,
+                      textScaleFactor: 3,
+                      style : TextStyle(
+                        color: Colors.black,
+                      )
                   )
               ),
           )
