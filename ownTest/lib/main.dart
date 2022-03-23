@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 void main() {
   runApp(Container(
@@ -39,6 +37,7 @@ class MyStatefulWidget extends StatefulWidget {
   State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
 }
 
+// FirstPage (Home)
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
@@ -67,7 +66,16 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       _selectedIndex = index;
       switch(_selectedIndex) {
         case 0:
-          MaterialPageRoute(builder: (context) => const MyStatefulWidget());
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const MyStatefulWidget()),
+          );
+          break;
+        case 1:
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const SecondStatefulWidget()),
+          );
           break;
       }
     });
@@ -102,7 +110,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           BottomNavigationBarItem(
             icon: Icon(Icons.school),
             label: 'School',
-            backgroundColor: Colors.green,
+            backgroundColor: Colors.black,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.newspaper),
@@ -120,5 +128,87 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         onTap: _onItemTapped,
       ),
     );
+  }
+}
+
+class SecondStatefulWidget extends StatefulWidget {
+  const SecondStatefulWidget({Key? key}) : super(key: key);
+
+  @override
+  State<SecondStatefulWidget> createState() => SecondRoute();
+}
+
+// SecondPage (school)
+class SecondRoute extends State<SecondStatefulWidget> {
+  int _selectedIndex = 1;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+          color: Colors.orange,
+          child: Align(
+            child: Container(
+                child: Text(
+                    'School page',
+                    textAlign: TextAlign.center,
+                    textDirection: TextDirection.ltr,
+                    textScaleFactor: 3,
+                    style: TextStyle(
+                      color: Colors.black,
+                    )
+                )
+            ),
+          )
+      ),
+
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+            backgroundColor: Colors.black,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school),
+            label: 'School',
+            backgroundColor: Colors.black,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.newspaper),
+            label: 'News',
+            backgroundColor: Colors.purple,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle),
+            label: 'Account',
+            backgroundColor: Colors.pink,
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.amber[800],
+        onTap: _onItemTapped,
+      ),
+    );
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+      switch (_selectedIndex) {
+        case 0:
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const MyStatefulWidget()),
+          );
+          break;
+        case 1:
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const SecondStatefulWidget()),
+          );
+          break;
+      }
+    });
   }
 }
