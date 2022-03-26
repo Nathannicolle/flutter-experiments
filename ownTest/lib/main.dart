@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 void main() {
-  runApp(Container(
+  /*runApp(Container(
       color: Colors.blue,
       child: Center(
           child: Text(
@@ -12,7 +12,7 @@ void main() {
               )
           )
       )
-  ));
+  ));*/
   runApp(const MyApp());
 }
 
