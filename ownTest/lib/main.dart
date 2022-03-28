@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 void main() {
   /*runApp(Container(
@@ -77,6 +79,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             MaterialPageRoute(builder: (context) => const SecondStatefulWidget()),
           );
           break;
+        case 2:
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ThirdStatefulWidget()),
+          );
+          break;
       }
     });
   }
@@ -89,7 +97,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           child: Align(
               child: Container(
                   child: Text (
-                      'Hello world Welcome on this app - Home page',
+                      'Welcome on this app - Home page',
                       textAlign: TextAlign.center,
                       textDirection: TextDirection.ltr,
                       textScaleFactor: 3,
@@ -206,6 +214,92 @@ class SecondRoute extends State<SecondStatefulWidget> {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const SecondStatefulWidget()),
+          );
+          break;
+        case 2:
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ThirdStatefulWidget()),
+          );
+          break;
+      }
+    });
+  }
+}
+
+class ThirdStatefulWidget extends StatefulWidget {
+  const ThirdStatefulWidget({Key? key}) : super(key: key);
+
+  @override
+  State<ThirdStatefulWidget> createState() => ThirdRoute();
+}
+
+// SecondPage (school)
+class ThirdRoute extends State<ThirdStatefulWidget> {
+  int _selectedIndex = 2;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+          color: Colors.red,
+          child: Align(
+            child: Container(
+                child: Image.asset('assets/images/logo_v1.png'),
+            ),
+          )
+      ),
+
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+            backgroundColor: Colors.black,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school),
+            label: 'School',
+            backgroundColor: Colors.black,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.newspaper),
+            label: 'News',
+            backgroundColor: Colors.purple,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle),
+            label: 'Account',
+            backgroundColor: Colors.pink,
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.amber[800],
+        onTap: _onItemTapped,
+      ),
+    );
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+      switch (_selectedIndex) {
+        case 0:
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const MyStatefulWidget()),
+          );
+          break;
+        case 1:
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const SecondStatefulWidget()),
+          );
+          break;
+        case 2:
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ThirdStatefulWidget()),
           );
           break;
       }
