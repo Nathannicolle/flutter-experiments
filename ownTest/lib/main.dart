@@ -85,6 +85,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             MaterialPageRoute(builder: (context) => const ThirdStatefulWidget()),
           );
           break;
+        case 3:
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const FourthStatefulWidget()),
+          );
+          break;
       }
     });
   }
@@ -222,6 +228,12 @@ class SecondRoute extends State<SecondStatefulWidget> {
             MaterialPageRoute(builder: (context) => const ThirdStatefulWidget()),
           );
           break;
+        case 3:
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const FourthStatefulWidget()),
+          );
+          break;
       }
     });
   }
@@ -234,7 +246,7 @@ class ThirdStatefulWidget extends StatefulWidget {
   State<ThirdStatefulWidget> createState() => ThirdRoute();
 }
 
-// SecondPage (school)
+// ThirdPage (News)
 class ThirdRoute extends State<ThirdStatefulWidget> {
   int _selectedIndex = 2;
 
@@ -265,12 +277,12 @@ class ThirdRoute extends State<ThirdStatefulWidget> {
           BottomNavigationBarItem(
             icon: Icon(Icons.newspaper),
             label: 'News',
-            backgroundColor: Colors.purple,
+            backgroundColor: Colors.black,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
             label: 'Account',
-            backgroundColor: Colors.pink,
+            backgroundColor: Colors.black,
           ),
         ],
         currentIndex: _selectedIndex,
@@ -300,6 +312,98 @@ class ThirdRoute extends State<ThirdStatefulWidget> {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const ThirdStatefulWidget()),
+          );
+          break;
+        case 3:
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const FourthStatefulWidget()),
+          );
+          break;
+      }
+    });
+  }
+}
+
+class FourthStatefulWidget extends StatefulWidget {
+  const FourthStatefulWidget({Key? key}) : super(key: key);
+
+  @override
+  State<FourthStatefulWidget> createState() => FourthRoute();
+}
+
+// ThirdPage (News)
+class FourthRoute extends State<FourthStatefulWidget> {
+  int _selectedIndex = 3;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+          color: Colors.deepPurple,
+          child: Align(
+            child: Container(
+              child: Image.asset('assets/images/logo_v1.png'),
+            ),
+          )
+      ),
+
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+            backgroundColor: Colors.black,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school),
+            label: 'School',
+            backgroundColor: Colors.black,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.newspaper),
+            label: 'News',
+            backgroundColor: Colors.purple,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle),
+            label: 'Account',
+            backgroundColor: Colors.black,
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.amber[800],
+        onTap: _onItemTapped,
+      ),
+    );
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+      switch (_selectedIndex) {
+        case 0:
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const MyStatefulWidget()),
+          );
+          break;
+        case 1:
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const SecondStatefulWidget()),
+          );
+          break;
+        case 2:
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ThirdStatefulWidget()),
+          );
+          break;
+        case 3:
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const FourthStatefulWidget()),
           );
           break;
       }
