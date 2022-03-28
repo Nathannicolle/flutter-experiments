@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter TEST APP'),
+      home: const MyHomePage(title: 'Flutter List APP'),
     );
   }
 }
@@ -87,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.pop(context, 'Cancel'),
-            child: const Text('Cancel'),
+            child: const Text('Cancel', style: TextStyle(color: Colors.red)),
           ),
           TextButton(
             onPressed: () {
@@ -96,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.pop(context, 'Add');
               });
             },
-            child: const Text('ADD'),
+            child: const Text('ADD', style: TextStyle(color: Colors.green)),
           ),
         ],
       ),
@@ -109,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
       builder: (BuildContext context) => AlertDialog(
         title: const Text('Editer un élément'),
         content: TextFormField(
-          initialValue: (index == -1)? '': todoItems[index],
+          initialValue: (indexItem == -1)? '': todoItems[indexItem],
           onChanged: (value) {
             itemValue = value;
           },
@@ -118,12 +118,11 @@ class _MyHomePageState extends State<MyHomePage> {
             border: OutlineInputBorder(),
             labelText: 'Item',
           ),
-          onSubmitted: (String value) async {},
         ),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.pop(context, 'Cancel'),
-            child: const Text('Cancel'),
+            child: const Text('Cancel', style: TextStyle(color: Colors.red)),
           ),
           TextButton(
             onPressed: () {
@@ -133,6 +132,31 @@ class _MyHomePageState extends State<MyHomePage> {
               });
             },
             child: const Text('EDIT'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<String?> deleteItem([int indexItem=-1]) {
+    return showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Supprimer un élément'),
+        content: Text('Êtes-vous sûr de vouloir supprimer l\'élement ?'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Cancel'),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              setState(() {
+                todoItems.removeAt(indexItem);
+                Navigator.pop(context, 'Delete');
+              });
+            },
+            child: const Text('DELETE', style: TextStyle(color: Colors.red)),
           ),
         ],
       ),
@@ -164,7 +188,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   dense: false,
                   trailing: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
                     IconButton(onPressed: () => editItem(index), icon: Icon(Icons.edit)),
-                    IconButton(onPressed: _decrementCounter, icon: Icon(Icons.delete))
+                    IconButton(onPressed: () => deleteItem(index), icon: Icon(Icons.delete))
                   ]),
 
                 );
@@ -176,6 +200,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Padding(
                 padding: EdgeInsets.all(25.0),
                 child: FloatingActionButton(
+                    backgroundColor: Colors.green,
                     tooltip: 'Increment',
                     child: const Icon(Icons.add),
                     onPressed: addItemDialog)),
@@ -185,6 +210,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Padding(
               padding: EdgeInsets.all(25.0),
               child: FloatingActionButton(
+                backgroundColor: Colors.red,
                 onPressed: _decrementCounter,
                 tooltip: 'Decrement',
                 child: const Icon(Icons.delete),
