@@ -50,6 +50,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   List<String> todoItems = <String>['Item 1', 'Item 2', 'Item 3'];
+  String itemValue = '';
 
   void _incrementCounter() {
     setState(() {
@@ -58,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      _counter++;
+      todoItems.add('value');
     });
   }
 
@@ -66,6 +67,42 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _counter = 0;
     });
+  }
+
+  Future<String?> addItemDialog() {
+    return showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Créer un élément'),
+        content: TextField(
+          onChanged: (value) {
+            itemValue = value;
+            },
+          decoration: InputDecoration(
+            border: OutlineInputBorder(),
+            labelText: 'Item',
+          ),
+          onSubmitted: (String value) async {
+
+          },
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Cancel'),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              setState(() {
+                todoItems.add(itemValue);
+                Navigator.pop(context, 'Add');
+              });
+            },
+            child: const Text('ADD'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -89,18 +126,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Text('${todoItems[index]}'),
               );
             }),
-
         floatingActionButton: Stack(children: <Widget>[
           Align(
-              alignment: Alignment.bottomLeft,
-              child: Padding(
+            alignment: Alignment.bottomLeft,
+            child: Padding(
                 padding: EdgeInsets.all(25.0),
                 child: FloatingActionButton(
-                  onPressed: _incrementCounter,
                   tooltip: 'Increment',
                   child: const Icon(Icons.add),
-                ),
-              )),
+                  onPressed: addItemDialog
+                )),
+          ),
           Align(
             alignment: Alignment.bottomRight,
             child: Padding(
