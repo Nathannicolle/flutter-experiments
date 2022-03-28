@@ -65,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _decrementCounter() {
     setState(() {
-      _counter = 0;
+      todoItems = [];
     });
   }
 
@@ -77,14 +77,12 @@ class _MyHomePageState extends State<MyHomePage> {
         content: TextField(
           onChanged: (value) {
             itemValue = value;
-            },
+          },
           decoration: InputDecoration(
             border: OutlineInputBorder(),
             labelText: 'Item',
           ),
-          onSubmitted: (String value) async {
-
-          },
+          onSubmitted: (String value) async {},
         ),
         actions: <Widget>[
           TextButton(
@@ -105,6 +103,42 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  Future<String?> editItem([int indexItem=-1]) {
+    return showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Editer un élément'),
+        content: TextFormField(
+          initialValue: (index == -1)? '': todoItems[index],
+          onChanged: (value) {
+            itemValue = value;
+          },
+
+          decoration: InputDecoration(
+            border: OutlineInputBorder(),
+            labelText: 'Item',
+          ),
+          onSubmitted: (String value) async {},
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Cancel'),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              setState(() {
+                todoItems[indexItem] = itemValue;
+                Navigator.pop(context, 'Edit');
+              });
+            },
+            child: const Text('EDIT'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -119,23 +153,32 @@ class _MyHomePageState extends State<MyHomePage> {
           // the App.build method, and use it to set our appbar title.
           title: Text(widget.title),
         ),
-        body: ListView.builder(
-            itemCount: todoItems.length,
-            itemBuilder: (context, index) {
-              return Container(
-                child: Text('${todoItems[index]}'),
-              );
-            }),
+        body: Container(
+            child: Stack(children: <Widget>[
+          ListView.builder(
+              itemCount: todoItems.length,
+              itemBuilder: (context, int index) {
+                return ListTile(
+                  leading: Icon(Icons.play_arrow),
+                  title: Text('${todoItems[index]}'),
+                  dense: false,
+                  trailing: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                    IconButton(onPressed: () => editItem(index), icon: Icon(Icons.edit)),
+                    IconButton(onPressed: _decrementCounter, icon: Icon(Icons.delete))
+                  ]),
+
+                );
+              }),
+        ])),
         floatingActionButton: Stack(children: <Widget>[
           Align(
             alignment: Alignment.bottomLeft,
             child: Padding(
                 padding: EdgeInsets.all(25.0),
                 child: FloatingActionButton(
-                  tooltip: 'Increment',
-                  child: const Icon(Icons.add),
-                  onPressed: addItemDialog
-                )),
+                    tooltip: 'Increment',
+                    child: const Icon(Icons.add),
+                    onPressed: addItemDialog)),
           ),
           Align(
             alignment: Alignment.bottomRight,
