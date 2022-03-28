@@ -87,17 +87,17 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       body: Container(
           color: Colors.blue,
           child: Align(
-              child: Container(
-                  child: Text (
-                      'Welcome on this app - Home page',
-                      textAlign: TextAlign.center,
-                      textDirection: TextDirection.ltr,
-                      textScaleFactor: 3,
-                      style : TextStyle(
-                        color: Colors.black,
-                      )
-                  )
-              ),
+            child: Container(
+                child: Text (
+                    'Hello world Welcome on this app - Home page',
+                    textAlign: TextAlign.center,
+                    textDirection: TextDirection.ltr,
+                    textScaleFactor: 3,
+                    style : TextStyle(
+                      color: Colors.black,
+                    )
+                )
+            ),
           )
       ),
       bottomNavigationBar: BottomNavigationBar(
