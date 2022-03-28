@@ -13,8 +13,9 @@ To get the project you need to go into your desination folder and execute : <br>
 ``git clone https://github.com/Nathannicolle/flutter-experiments/``
 
 ## Try windows software version
-* You can access to exe file of the test projet : [here](https://github.com/Nathannicolle/flutter-experiments/blob/main/app_release/owntest.exe)
-* If you want to try the software you need to have the entire folder and files : [here](https://github.com/Nathannicolle/flutter-experiments/tree/main/app_release)
+* You can access to exe file of the test projet : [here](https://github.com/Nathannicolle/flutter-experiments/blob/main/app_release/windows/owntest.exe)
+* If you want to try the software you need to have the entire folder and files : [here](https://github.com/Nathannicolle/flutter-experiments/tree/main/app_release/windows/)
+* Access to apk files : [here](https://github.com/Nathannicolle/flutter-experiments/tree/main/app_release/apk)
 
 ## Screenshots
 Home page : <br>
