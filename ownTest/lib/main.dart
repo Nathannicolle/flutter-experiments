@@ -333,7 +333,7 @@ class FourthStatefulWidget extends StatefulWidget {
 }
 
 // ThirdPage (News)
-class FourthRoute extends State<FourthStatefulWidget> with TickerProviderStateMixin {
+class FourthRoute extends State<FourthStatefulWidget> with TickerProviderStateMixin  {
   int _selectedIndex = 3;
 
   late final AnimationController _controller = AnimationController(
