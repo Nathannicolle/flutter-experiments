@@ -89,7 +89,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           child: Align(
               child: Container(
                   child: Text (
-                      'Hello world Welcome on this app - Home page',
+                      'Welcome on this app - Home page',
                       textAlign: TextAlign.center,
                       textDirection: TextDirection.ltr,
                       textScaleFactor: 3,
