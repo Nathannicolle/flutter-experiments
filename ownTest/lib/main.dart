@@ -333,8 +333,17 @@ class FourthStatefulWidget extends StatefulWidget {
 }
 
 // ThirdPage (News)
-class FourthRoute extends State<FourthStatefulWidget> {
+class FourthRoute extends State<FourthStatefulWidget> with TickerProviderStateMixin {
   int _selectedIndex = 3;
+
+  late final AnimationController _controller = AnimationController(
+    duration: const Duration(seconds: 2),
+    vsync: this,
+  )..repeat(reverse: true);
+  late final Animation<double> _animation = CurvedAnimation(
+    parent: _controller,
+    curve: Curves.elasticOut,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -343,7 +352,10 @@ class FourthRoute extends State<FourthStatefulWidget> {
           color: Colors.deepPurple,
           child: Align(
             child: Container(
-              child: Image.asset('assets/images/logo_v1.png'),
+                child: RotationTransition(
+                  turns: _animation,
+                  child: Image.asset('assets/images/logo_v1.png'),
+                ),
             ),
           )
       ),
