@@ -37,5 +37,10 @@ class TodoListModel extends ChangeNotifier {
   remove(int index) {
     _todos.removeAt(index);
     notifyListeners();
-  } 
+  }
+
+  /*check(int index) {
+    _todos[index].checked = true;
+    notifyListeners();
+  }*/
 }

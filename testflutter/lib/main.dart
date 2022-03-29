@@ -51,8 +51,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  List<String> todoItems = <String>['Item 1', 'Item 2', 'Item 3'];
   String itemValue = '';
 
   Future<String?> addItemDialog([int index = -1]) {
@@ -93,30 +91,32 @@ class _MyHomePageState extends State<MyHomePage> {
       context: context,
       builder: (BuildContext context) => AlertDialog(
         title: const Text('Editer un élément'),
-        content: TextFormField(
-          initialValue: (indexItem == -1) ? '' : todoItems[indexItem],
-          onChanged: (value) {
-            itemValue = value;
-          },
-          decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: 'Item',
-          ),
-        ),
+        content: Consumer<TodoListModel>(builder: (context, todoList, child) {
+          return TextFormField(
+            initialValue: (indexItem == -1) ? '' : todoList.todos[indexItem],
+            onChanged: (value) {
+              itemValue = value;
+            },
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'Item',
+            ),
+          );
+        }),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.pop(context, 'Cancel'),
             child: const Text('Cancel', style: TextStyle(color: Colors.red)),
           ),
-          TextButton(
-            onPressed: () {
-              setState(() {
-                todoItems[indexItem] = itemValue;
+          Consumer<TodoListModel>(builder: (context, todoList, child) {
+            return TextButton(
+              onPressed: () {
+                todoList.todos[indexItem] = itemValue;
                 Navigator.pop(context, 'Edit');
-              });
-            },
-            child: const Text('EDIT'),
-          ),
+              },
+              child: const Text('EDIT'),
+            );
+          })
         ],
       ),
     );
@@ -133,15 +133,17 @@ class _MyHomePageState extends State<MyHomePage> {
             onPressed: () => Navigator.pop(context, 'Cancel'),
             child: const Text('Cancel'),
           ),
-          TextButton(
-            onPressed: () {
-              setState(() {
-                todoItems.remove(indexItem);
-                Navigator.pop(context, 'Delete');
-              });
-            },
-            child: const Text('DELETE', style: TextStyle(color: Colors.red)),
-          ),
+          Consumer<TodoListModel>(builder: (context, todoList, child) {
+            return TextButton(
+              onPressed: () {
+                setState(() {
+                  todoList.remove(indexItem);
+                  Navigator.pop(context, 'Delete');
+                });
+              },
+              child: const Text('DELETE', style: TextStyle(color: Colors.red)),
+            );
+          })
         ],
       ),
     );
@@ -162,23 +164,23 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text(widget.title),
         ),
         body: Stack(children: <Widget>[
-          Consumer<TodoListModel>(builder: (context, todoloist, child) {
+          Consumer<TodoListModel>(builder: (context, todoList, child) {
             return ListView.builder(
-                itemCount: todoItems.length,
+                itemCount: todoList.todos.length,
                 itemBuilder: (context, int index) {
                   return ListTile(
-                    leading: Icon(Icons.play_arrow, color: Colors.grey),
-                    title: Text('${todoItems[index]}',
-                        style: TextStyle(color: Colors.grey)),
+                    leading: const Icon(Icons.play_arrow, color: Colors.grey),
+                    title: Text(todoList.todos[index],
+                        style: const TextStyle(color: Colors.grey)),
                     dense: false,
                     trailing:
                         Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
                       IconButton(
                           onPressed: () => addItemDialog(index),
-                          icon: Icon(Icons.edit, color: Colors.grey)),
+                          icon: const Icon(Icons.edit, color: Colors.grey)),
                       IconButton(
                           onPressed: () => deleteItem(index),
-                          icon: Icon(Icons.delete, color: Colors.grey))
+                          icon: const Icon(Icons.delete, color: Colors.grey))
                     ]),
                   );
                 });
