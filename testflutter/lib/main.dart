@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:testflutter/providers/TodoListModel.dart';
+import 'package:testflutter/models/Todo.dart';
 
 void main() {
   runApp(ChangeNotifierProvider(
@@ -152,6 +153,33 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  Future<String?> clearAll() {
+    return showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Supprimer l\'ensemble des élément'),
+        content: Text('Êtes-vous sûr de vouloir supprimer l\'ensemble des élement ?'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Cancel'),
+            child: const Text('Cancel'),
+          ),
+          Consumer<TodoListModel>(builder: (context, todoList, child) {
+            return TextButton(
+              onPressed: () {
+                setState(() {
+                  todoList.clear();
+                  Navigator.pop(context, 'Clear');
+                });
+              },
+              child: const Text('DELETE ALL', style: TextStyle(color: Colors.red)),
+            );
+          })
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -168,11 +196,22 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         body: Stack(children: <Widget>[
           Consumer<TodoListModel>(builder: (context, todoList, child) {
+            List<Todo> todos = todoList.todos;
             return ListView.builder(
                 itemCount: todoList.todos.length,
                 itemBuilder: (context, int index) {
                   return ListTile(
-                    leading: const Icon(Icons.play_arrow, color: Colors.grey),
+                    leading: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        const Icon(Icons.play_arrow, color: Colors.grey),
+                        Checkbox(
+                            value: todos[index].checked,
+                            onChanged: (value) {
+                              todoList.toggleCheck(index);
+                            })
+                      ]
+                    ),
                     title: Text(todoList.todos[index],
                         style: const TextStyle(color: Colors.grey)),
                     dense: false,
@@ -208,7 +247,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     backgroundColor: Colors.red,
                     child: const Icon(Icons.delete),
                     onPressed: () {
-                      todoList.clear();
+                      clearAll();
                     });
               }))
         ])

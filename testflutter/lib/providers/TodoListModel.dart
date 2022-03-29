@@ -3,10 +3,10 @@ import 'package:testflutter/models/Todo.dart';
 import 'package:flutter/widgets.dart';
 
 class TodoListModel extends ChangeNotifier {
-  List<Todo> _todos = List.empty(growable: true);
+  List<Todo> _todos = List.empty(growable: true); // List.empty(growable: true)
 
   addItem(String item) {
-    _todos.add(Todo(name: item));
+    Todo(name: item);
     notifyListeners();
   }
 
@@ -15,10 +15,7 @@ class TodoListModel extends ChangeNotifier {
   }
 
   Todo getItems(int index) {
-    if(index == -1) {
-      return Todo(name: '');
-    }
-    return todos.elementAt(index);
+    return _todos[index];
   }
 
   toggleCheck(int index) {
