@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:testflutter/models/Todo.dart';
+import 'package:flutter/widgets.dart';
 
 class TodoListModel extends ChangeNotifier {
-  List<String> _todos = List.empty(growable: true);
-  bool checked = false;
+  List<Todo> _todos = List.empty(growable: true);
 
   addItem(String item) {
-    _todos.add(item);
+    _todos.add(Todo(name: item));
     notifyListeners();
   }
 
@@ -14,11 +14,11 @@ class TodoListModel extends ChangeNotifier {
     return _todos;
   }
 
-  /*Todo getItems(int index) {
+  Todo getItems(int index) {
     if(index == -1) {
       return Todo(name: '');
     }
-    return _todos.elementAt(index);
+    return todos.elementAt(index);
   }
 
   toggleCheck(int index) {
@@ -26,7 +26,7 @@ class TodoListModel extends ChangeNotifier {
       _todos[index].checked = !_todos[index].checked;
       notifyListeners();
     }
-  }*/
+  }
 
   insertOrUpdate(int index, String newValue) {
     if(index == -1) {
@@ -37,7 +37,7 @@ class TodoListModel extends ChangeNotifier {
   }
 
   update(int index, String newValue) {
-    _todos[index] = newValue;
+    _todos[index].name = newValue;
     notifyListeners();
   }
 

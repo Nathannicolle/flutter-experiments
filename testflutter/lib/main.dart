@@ -60,7 +60,8 @@ class _MyHomePageState extends State<MyHomePage> {
         title: const Text('Ajouter un élément'),
         content: Consumer<TodoListModel>(builder: (context, todoList, child) {
           return TextFormField(
-              initialValue: (index == -1) ? '' : todoList.todos[index],
+              autofocus: true,
+              initialValue: (index == -1) ? '' : todoList.getItems(index).name,
               onChanged: (value) {
                 itemValue = value;
               });
@@ -94,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
         content: Consumer<TodoListModel>(builder: (context, todoList, child) {
           return Row(children: <Widget>[
             TextFormField(
-              initialValue: (indexItem == -1) ? '' : todoList.todos[indexItem],
+              initialValue: (indexItem == -1) ? '' : todoList.getItems(indexItem).name,
               onChanged: (value) {
                 itemValue = value;
               },
@@ -204,7 +205,8 @@ class _MyHomePageState extends State<MyHomePage> {
               child:
                   Consumer<TodoListModel>(builder: (context, todoList, child) {
                 return FloatingActionButton(
-                    child: const Icon(Icons.cancel),
+                    backgroundColor: Colors.red,
+                    child: const Icon(Icons.delete),
                     onPressed: () {
                       todoList.clear();
                     });
