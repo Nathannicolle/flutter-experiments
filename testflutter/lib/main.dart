@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:testflutter/providers/TodoListModel.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+      create: (context) => TodoListModel(), child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -52,68 +55,49 @@ class _MyHomePageState extends State<MyHomePage> {
   List<String> todoItems = <String>['Item 1', 'Item 2', 'Item 3'];
   String itemValue = '';
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      todoItems.add('value');
-    });
-  }
-
-  void _decrementCounter() {
-    setState(() {
-      todoItems = [];
-    });
-  }
-
-  Future<String?> addItemDialog() {
+  Future<String?> addItemDialog([int index = -1]) {
     return showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title: const Text('Créer un élément'),
-        content: TextField(
-          onChanged: (value) {
-            itemValue = value;
-          },
-          decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: 'Item',
-          ),
-          onSubmitted: (String value) async {},
-        ),
+        title: const Text('Ajouter un élément'),
+        content: Consumer<TodoListModel>(builder: (context, todoList, child) {
+          return TextFormField(
+              initialValue: (index == -1) ? '' : todoList.todos[index],
+              onChanged: (value) {
+                itemValue = value;
+              });
+        }),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.pop(context, 'Cancel'),
-            child: const Text('Cancel', style: TextStyle(color: Colors.red)),
+            child: const Text('Cancel'),
           ),
-          TextButton(
-            onPressed: () {
-              setState(() {
-                todoItems.add(itemValue);
-                Navigator.pop(context, 'Add');
-              });
-            },
-            child: const Text('ADD', style: TextStyle(color: Colors.green)),
-          ),
+          Consumer<TodoListModel>(builder: (context, todoList, child) {
+            return TextButton(
+              onPressed: () {
+                setState(() {
+                  todoList.addItem(itemValue);
+                  Navigator.pop(context, 'Ok');
+                });
+              },
+              child: const Text('OK'),
+            );
+          }),
         ],
       ),
     );
   }
 
-  Future<String?> editItem([int indexItem=-1]) {
+  Future<String?> editItem([int indexItem = -1]) {
     return showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
         title: const Text('Editer un élément'),
         content: TextFormField(
-          initialValue: (indexItem == -1)? '': todoItems[indexItem],
+          initialValue: (indexItem == -1) ? '' : todoItems[indexItem],
           onChanged: (value) {
             itemValue = value;
           },
-
           decoration: InputDecoration(
             border: OutlineInputBorder(),
             labelText: 'Item',
@@ -138,7 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Future<String?> deleteItem([int indexItem=-1]) {
+  Future<String?> deleteItem([int indexItem = -1]) {
     return showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -152,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
           TextButton(
             onPressed: () {
               setState(() {
-                todoItems.removeAt(indexItem);
+                todoItems.remove(indexItem);
                 Navigator.pop(context, 'Delete');
               });
             },
@@ -177,23 +161,29 @@ class _MyHomePageState extends State<MyHomePage> {
           // the App.build method, and use it to set our appbar title.
           title: Text(widget.title),
         ),
-        body: Container(
-            child: Stack(children: <Widget>[
-          ListView.builder(
-              itemCount: todoItems.length,
-              itemBuilder: (context, int index) {
-                return ListTile(
-                  leading: Icon(Icons.play_arrow),
-                  title: Text('${todoItems[index]}'),
-                  dense: false,
-                  trailing: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                    IconButton(onPressed: () => editItem(index), icon: Icon(Icons.edit)),
-                    IconButton(onPressed: () => deleteItem(index), icon: Icon(Icons.delete))
-                  ]),
-
-                );
-              }),
-        ])),
+        body: Stack(children: <Widget>[
+          Consumer<TodoListModel>(builder: (context, todoloist, child) {
+            return ListView.builder(
+                itemCount: todoItems.length,
+                itemBuilder: (context, int index) {
+                  return ListTile(
+                    leading: Icon(Icons.play_arrow, color: Colors.grey),
+                    title: Text('${todoItems[index]}',
+                        style: TextStyle(color: Colors.grey)),
+                    dense: false,
+                    trailing:
+                        Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                      IconButton(
+                          onPressed: () => addItemDialog(index),
+                          icon: Icon(Icons.edit, color: Colors.grey)),
+                      IconButton(
+                          onPressed: () => deleteItem(index),
+                          icon: Icon(Icons.delete, color: Colors.grey))
+                    ]),
+                  );
+                });
+          })
+        ]),
         floatingActionButton: Stack(children: <Widget>[
           Align(
             alignment: Alignment.bottomLeft,
@@ -206,17 +196,15 @@ class _MyHomePageState extends State<MyHomePage> {
                     onPressed: addItemDialog)),
           ),
           Align(
-            alignment: Alignment.bottomRight,
-            child: Padding(
-              padding: EdgeInsets.all(25.0),
-              child: FloatingActionButton(
-                backgroundColor: Colors.red,
-                onPressed: _decrementCounter,
-                tooltip: 'Decrement',
-                child: const Icon(Icons.delete),
-              ),
-            ),
-          )
+              alignment: Alignment.bottomRight,
+              child:
+                  Consumer<TodoListModel>(builder: (context, todoList, child) {
+                return FloatingActionButton(
+                    child: const Icon(Icons.cancel),
+                    onPressed: () {
+                      todoList.clear();
+                    });
+              }))
         ])
         // This trailing comma makes auto-formatting nicer for build methods.
         );
