@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:testflutter/models/Todo.dart';
 
 class TodoListModel extends ChangeNotifier {
   List<String> _todos = List.empty(growable: true);
+  bool checked = false;
 
   addItem(String item) {
     _todos.add(item);
@@ -12,9 +14,19 @@ class TodoListModel extends ChangeNotifier {
     return _todos;
   }
 
-  getItems(int index) {
-    return _todos[index];
+  /*Todo getItems(int index) {
+    if(index == -1) {
+      return Todo(name: '');
+    }
+    return _todos.elementAt(index);
   }
+
+  toggleCheck(int index) {
+    if(index != -1) {
+      _todos[index].checked = !_todos[index].checked;
+      notifyListeners();
+    }
+  }*/
 
   insertOrUpdate(int index, String newValue) {
     if(index == -1) {
@@ -38,9 +50,4 @@ class TodoListModel extends ChangeNotifier {
     _todos.removeAt(index);
     notifyListeners();
   }
-
-  /*check(int index) {
-    _todos[index].checked = true;
-    notifyListeners();
-  }*/
 }

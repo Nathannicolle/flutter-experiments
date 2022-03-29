@@ -92,16 +92,18 @@ class _MyHomePageState extends State<MyHomePage> {
       builder: (BuildContext context) => AlertDialog(
         title: const Text('Editer un élément'),
         content: Consumer<TodoListModel>(builder: (context, todoList, child) {
-          return TextFormField(
-            initialValue: (indexItem == -1) ? '' : todoList.todos[indexItem],
-            onChanged: (value) {
-              itemValue = value;
-            },
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Item',
-            ),
-          );
+          return Row(children: <Widget>[
+            TextFormField(
+              initialValue: (indexItem == -1) ? '' : todoList.todos[indexItem],
+              onChanged: (value) {
+                itemValue = value;
+              },
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Item',
+              ),
+            )
+          ]);
         }),
         actions: <Widget>[
           TextButton(
