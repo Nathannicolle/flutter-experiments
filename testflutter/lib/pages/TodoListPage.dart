@@ -34,6 +34,7 @@ class _TodoListPageState extends State<TodoListPage> {
             child: const Text('Cancel'),
           ),
           Consumer<TodoListModel>(builder: (context, todoList, child) {
+            List<Todo> todos = todoList.todos;
             return TextButton(
               onPressed: () {
                 setState(() {
@@ -143,20 +144,16 @@ class _TodoListPageState extends State<TodoListPage> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    final listName = ModalRoute.of(context)!.settings.arguments as String;
+
     return Scaffold(
         appBar: AppBar(
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
           title: Text(widget.title),
         ),
+
         body: Stack(children: <Widget>[
           Consumer<TodoListModel>(builder: (context, todoList, child) {
+            todoList.setActiveList(listName);
             List<Todo> todos = todoList.todos;
             return ListView.builder(
                 itemCount: todoList.todos.length,
@@ -173,7 +170,7 @@ class _TodoListPageState extends State<TodoListPage> {
                               })
                         ]
                     ),
-                    title: Text(todoList.todos[index],
+                    title: Text(todos[index].name,
                         style: const TextStyle(color: Colors.grey)),
                     dense: false,
                     trailing:

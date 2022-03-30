@@ -13,18 +13,21 @@ class HomePage extends StatelessWidget {
         title: const Text('First Route'),
       ),
       body: Consumer<TodoListModel>(builder: (context, todoList, child) {
-        List<String> myList = todoList.listNames;
+        List<String> myLists = todoList.listNames;
         return ListView.builder(
             itemCount: todoList.countList,
             itemBuilder: (context, int index) {
               return ListTile(
+                onTap: () {
+                  Navigator.pushNamed(context, '/todos', arguments: myLists[index]);
+                },
                 leading: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       const Icon(Icons.play_arrow, color: Colors.grey),
                     ]
                 ),
-                title: Text(myList[index],
+                title: Text(myLists[index],
                     style: const TextStyle(color: Colors.grey)),
                 dense: false,
                 trailing:
