@@ -37,7 +37,7 @@ class _HomePage extends State<HomePage> {
             return TextButton(
               onPressed: () {
                 setState(() {
-                  todoList.addNewList(itemValue);
+                  todoList.addNewList(itemValue );
                   Navigator.pop(context, 'create');
                 });
               },
@@ -84,7 +84,7 @@ class _HomePage extends State<HomePage> {
                         Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
                       const Icon(Icons.play_arrow, color: Colors.grey),
                     ]),
-                    title: Text(myLists[index],
+                    title: Text(myLists[index] + " (${todoList.getListCount(myLists[index]) })",
                         style: const TextStyle(color: Colors.grey)),
                     dense: false,
                     trailing:

@@ -27,6 +27,10 @@ class TodoListModel extends ChangeNotifier {
     return false;
   }
 
+  int? getListCount(String name) {
+    return myLists[name]?.length;
+  }
+
   get countList {
     return myLists.length;
   }
