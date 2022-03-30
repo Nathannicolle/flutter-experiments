@@ -49,6 +49,33 @@ class _HomePage extends State<HomePage> {
     );
   }
 
+  Future<String?> deleteList(String name) {
+    return showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Supprimer un élément'),
+        content: Text('Êtes-vous sûr de vouloir supprimer l\'élement ?'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Cancel'),
+            child: const Text('Cancel'),
+          ),
+          Consumer<TodoListModel>(builder: (context, todoList, child) {
+            return TextButton(
+              onPressed: () {
+                setState(() {
+                  todoList.removeList(name);
+                  Navigator.pop(context, 'Delete');
+                });
+              },
+              child: const Text('DELETE', style: TextStyle(color: Colors.red)),
+            );
+          })
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,7 +120,7 @@ class _HomePage extends State<HomePage> {
                           onPressed: () => '',
                           icon: const Icon(Icons.edit, color: Colors.grey)),
                       IconButton(
-                          onPressed: () => '',
+                          onPressed: () => deleteList(myLists[index]) ,
                           icon: const Icon(Icons.delete, color: Colors.grey))
                     ]),
                   );

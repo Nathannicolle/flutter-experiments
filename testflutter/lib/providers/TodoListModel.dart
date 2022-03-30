@@ -47,6 +47,10 @@ class TodoListModel extends ChangeNotifier {
     return _todos[index];
   }
 
+  getList(String name) {
+    return myLists[name];
+  }
+
   toggleCheck(int index) {
     if(index != -1) {
       _todos[index].checked = !_todos[index].checked;
@@ -74,6 +78,11 @@ class TodoListModel extends ChangeNotifier {
   
   remove(int index) {
     _todos.removeAt(index);
+    notifyListeners();
+  }
+
+  removeList(String name) {
+    myLists.remove(myLists[name]);
     notifyListeners();
   }
 }
