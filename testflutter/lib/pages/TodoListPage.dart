@@ -148,7 +148,7 @@ class _TodoListPageState extends State<TodoListPage> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text(widget.title),
+          title: Text(listName),
         ),
 
         body: Stack(children: <Widget>[
@@ -159,6 +159,7 @@ class _TodoListPageState extends State<TodoListPage> {
                 itemCount: todoList.todos.length,
                 itemBuilder: (context, int index) {
                   return ListTile(
+                    onTap: () {},
                     leading: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[

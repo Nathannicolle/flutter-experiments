@@ -3,7 +3,7 @@ import 'package:testflutter/models/Todo.dart';
 import 'package:flutter/widgets.dart';
 
 class TodoListModel extends ChangeNotifier {
-  Map<String, List<Todo>> myLists = {'Mes courses':[Todo(name: 'Eau'), Todo(name: 'Pain')]};
+  Map<String, List<Todo>> myLists = {'Mes courses':[Todo(name: 'Eau'), Todo(name: 'Pain'), Todo(name: 'Chocolat')], 'Objectifs': [Todo(name:'Faire du sport'), Todo(name: 'Manger sainement')]};
   List<Todo> _todos = List.empty(growable: true); // List.empty(growable: true)
 
   addItem(String item) {
