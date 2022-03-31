@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:testflutter/models/Todo.dart';
 import 'package:testflutter/providers/TodoListModel.dart';
 
 class HomePage extends StatefulWidget {
@@ -33,11 +32,10 @@ class _HomePage extends State<HomePage> {
             child: const Text('Cancel'),
           ),
           Consumer<TodoListModel>(builder: (context, todoList, child) {
-            List<Todo> todos = todoList.todos;
             return TextButton(
               onPressed: () {
                 setState(() {
-                  todoList.addNewList(itemValue );
+                  todoList.addNewList(itemValue);
                   Navigator.pop(context, 'create');
                 });
               },
@@ -54,7 +52,7 @@ class _HomePage extends State<HomePage> {
       context: context,
       builder: (BuildContext context) => AlertDialog(
         title: const Text('Supprimer un élément'),
-        content: Text('Êtes-vous sûr de vouloir supprimer l\'élement ?'),
+        content: Text('Êtes-vous sûr de vouloir supprimer la listes et les éléments qu\'elle comporte ?'),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.pop(context, 'Cancel'),
@@ -82,16 +80,15 @@ class _HomePage extends State<HomePage> {
         appBar: AppBar(
           title: const Text('First Route'),
         ),
-        body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
+        body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
+            Widget>[
           Container(
             padding: const EdgeInsets.all(10.0),
             child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.green,
-                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15)
-                ),
+                    primary: Colors.green,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 15)),
                 icon: Icon(Icons.add),
                 onPressed: addListDialog,
                 label: const Text('Add new to-do list')),
@@ -111,7 +108,9 @@ class _HomePage extends State<HomePage> {
                         Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
                       const Icon(Icons.play_arrow, color: Colors.grey),
                     ]),
-                    title: Text(myLists[index] + " (${todoList.getListCount(myLists[index]) })",
+                    title: Text(
+                        myLists[index] +
+                            " (${todoList.getListCount(myLists[index])})",
                         style: const TextStyle(color: Colors.grey)),
                     dense: false,
                     trailing:
@@ -120,7 +119,7 @@ class _HomePage extends State<HomePage> {
                           onPressed: () => '',
                           icon: const Icon(Icons.edit, color: Colors.grey)),
                       IconButton(
-                          onPressed: () => deleteList(myLists[index]) ,
+                          onPressed: () => deleteList(myLists[index]),
                           icon: const Icon(Icons.delete, color: Colors.grey))
                     ]),
                   );

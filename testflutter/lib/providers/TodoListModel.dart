@@ -81,8 +81,8 @@ class TodoListModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  removeList(String name) {
-    myLists.remove(myLists[name]);
+  removeList(String nameList) {
+    myLists.removeWhere((index, list) => index == nameList);
     notifyListeners();
   }
 }
