@@ -102,7 +102,12 @@ class TodoListModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  save() {
+  save() async {
     // ToDo sauvegarder activeListName et ses items (myList)
+    Box box = Hive.box<TodoList>(MyApp.BOXNAME);
+    TodoList list =
+    await box.values.firstWhere((element) => element.name == activeListName)
+        ?..elements = _todos
+        ..save();
   }
 }
