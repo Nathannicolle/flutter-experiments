@@ -6,13 +6,9 @@ import 'package:testflutter/main.dart';
 import 'package:flutter/widgets.dart';
 
 class TodoListModel extends ChangeNotifier {
+  late String activeListName;
   TodoListModel() {
     Box box = Hive.box<TodoList>(MyApp.BOXNAME);
-
-    TodoList aList = TodoList()
-    ..name = 'Course'
-    ..elements = [TodoElement('Eau'), TodoElement('Pain'), TodoElement('Lait')];
-    box.add(aList);
 
     List<TodoList> lists = box.values.toList().cast();
     lists.forEach((list) {
@@ -29,6 +25,7 @@ class TodoListModel extends ChangeNotifier {
 
   setActiveList(String name) {
     if (myLists.containsKey(name)) {
+      activeListName = name;
       _todos = myLists[name] as List<TodoElement>;
       notifyListeners();
     }
@@ -103,5 +100,9 @@ class TodoListModel extends ChangeNotifier {
   removeList(String nameList) {
     myLists.removeWhere((index, list) => index == nameList);
     notifyListeners();
+  }
+
+  save() {
+    // ToDo sauvegarder activeListName et ses items (myList)
   }
 }
