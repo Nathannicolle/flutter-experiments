@@ -3,12 +3,11 @@ import 'package:hive/hive.dart';
 import 'package:testflutter/database/TodoElement.dart';
 import 'package:testflutter/database/TodoList.dart';
 import 'package:testflutter/main.dart';
-import 'package:testflutter/models/Todo.dart';
 import 'package:flutter/widgets.dart';
 
 class TodoListModel extends ChangeNotifier {
   TodoListModel() {
-    Box box = Hive.box(MyApp.BOXNAME);
+    Box box = Hive.box<TodoList>(MyApp.BOXNAME);
 
     TodoList aList = TodoList()
     ..name = 'Course'
@@ -17,20 +16,20 @@ class TodoListModel extends ChangeNotifier {
 
     List<TodoList> lists = box.values.toList().cast();
     lists.forEach((list) {
-      myLists[list.name] = list.elements.cast<Todo>();
+      myLists[list.name] = list.elements.cast<TodoElement>();
     });
   }
-  Map<String, List<Todo>> myLists = {};
-  List<Todo> _todos = List.empty(growable: true); // List.empty(growable: true)
+  Map<String, List<TodoElement>> myLists = {};
+  List<TodoElement> _todos = List.empty(growable: true); // List.empty(growable: true)
 
   addItem(String item) {
-    Todo(name: item);
+    TodoElement(item);
     notifyListeners();
   }
 
   setActiveList(String name) {
     if (myLists.containsKey(name)) {
-      _todos = myLists[name] as List<Todo>;
+      _todos = myLists[name] as List<TodoElement>;
       notifyListeners();
     }
   }
@@ -60,8 +59,11 @@ class TodoListModel extends ChangeNotifier {
     return _todos;
   }
 
-  Todo getItems(int index) {
-    return _todos[index];
+  TodoElement getItems(int index) {
+    if(index == -1) {
+      return TodoElement(''); 
+    }
+    return _todos.elementAt(index);
   }
 
   getList(String name) {

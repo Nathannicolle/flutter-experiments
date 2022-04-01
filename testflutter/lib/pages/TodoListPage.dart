@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:testflutter/models/Todo.dart';
+import 'package:testflutter/database/TodoElement.dart';
 import 'package:testflutter/providers/TodoListModel.dart';
 
 class TodoListPage extends StatefulWidget {
@@ -34,7 +34,7 @@ class _TodoListPageState extends State<TodoListPage> {
             child: const Text('Cancel', style: TextStyle(color: Colors.red)),
           ),
           Consumer<TodoListModel>(builder: (context, todoList, child) {
-            List<Todo> todos = todoList.todos;
+            List<TodoElement> todos = todoList.todos;
             return TextButton(
               onPressed: () {
                 setState(() {
@@ -154,7 +154,7 @@ class _TodoListPageState extends State<TodoListPage> {
         body: Stack(children: <Widget>[
           Consumer<TodoListModel>(builder: (context, todoList, child) {
             todoList.setActiveList(listName);
-            List<Todo> todos = todoList.todos;
+            List<TodoElement> todos = todoList.todos;
             return ListView.builder(
                 itemCount: todoList.todos.length,
                 itemBuilder: (context, int index) {
