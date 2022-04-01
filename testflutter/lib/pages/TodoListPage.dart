@@ -31,7 +31,7 @@ class _TodoListPageState extends State<TodoListPage> {
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.pop(context, 'Cancel'),
-            child: const Text('Cancel'),
+            child: const Text('Cancel', style: TextStyle(color: Colors.red)),
           ),
           Consumer<TodoListModel>(builder: (context, todoList, child) {
             List<Todo> todos = todoList.todos;
@@ -42,7 +42,7 @@ class _TodoListPageState extends State<TodoListPage> {
                   Navigator.pop(context, 'Ok');
                 });
               },
-              child: const Text('OK'),
+              child: const Text('CREATE', style: TextStyle(color: Colors.green)),
             );
           }),
         ],

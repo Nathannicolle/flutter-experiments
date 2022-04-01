@@ -29,7 +29,7 @@ class _HomePage extends State<HomePage> {
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.pop(context, 'Cancel'),
-            child: const Text('Cancel'),
+            child: const Text('Cancel', style: TextStyle(color: Colors.red)),
           ),
           Consumer<TodoListModel>(builder: (context, todoList, child) {
             return TextButton(
@@ -39,7 +39,7 @@ class _HomePage extends State<HomePage> {
                   Navigator.pop(context, 'create');
                 });
               },
-              child: const Text('CREATE'),
+              child: const Text('CREATE', style: TextStyle(color: Colors.green)),
             );
           }),
         ],

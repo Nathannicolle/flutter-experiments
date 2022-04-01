@@ -1,9 +1,26 @@
 import 'package:flutter/cupertino.dart';
+import 'package:hive/hive.dart';
+import 'package:testflutter/database/TodoElement.dart';
+import 'package:testflutter/database/TodoList.dart';
+import 'package:testflutter/main.dart';
 import 'package:testflutter/models/Todo.dart';
 import 'package:flutter/widgets.dart';
 
 class TodoListModel extends ChangeNotifier {
-  Map<String, List<Todo>> myLists = {'Mes courses':[Todo(name: 'Eau'), Todo(name: 'Pain'), Todo(name: 'Chocolat')], 'Objectifs': [Todo(name:'Faire du sport'), Todo(name: 'Manger sainement')]};
+  TodoListModel() {
+    Box box = Hive.box(MyApp.BOXNAME);
+
+    TodoList aList = TodoList()
+    ..name = 'Course'
+    ..elements = [TodoElement('Eau'), TodoElement('Pain'), TodoElement('Lait')];
+    box.add(aList);
+
+    List<TodoList> lists = box.values.toList().cast();
+    lists.forEach((list) {
+      myLists[list.name] = list.elements.cast<Todo>();
+    });
+  }
+  Map<String, List<Todo>> myLists = {};
   List<Todo> _todos = List.empty(growable: true); // List.empty(growable: true)
 
   addItem(String item) {
