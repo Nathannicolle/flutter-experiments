@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 
 part 'TodoElement.g.dart';
 
-@HiveType(typeId: 1)
+@HiveType(typeId: 2)
 class TodoElement {
   TodoElement(this.name);
 

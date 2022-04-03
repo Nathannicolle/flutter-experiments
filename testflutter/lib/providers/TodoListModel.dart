@@ -7,16 +7,18 @@ import 'package:flutter/widgets.dart';
 
 class TodoListModel extends ChangeNotifier {
   late String activeListName;
+
   TodoListModel() {
     Box box = Hive.box<TodoList>(MyApp.BOXNAME);
-
     List<TodoList> lists = box.values.toList().cast();
     lists.forEach((list) {
-      myLists[list.name] = list.elements.cast<TodoElement>();
+      myLists[list.name] = list.elements;
     });
   }
+
   Map<String, List<TodoElement>> myLists = {};
-  List<TodoElement> _todos = List.empty(growable: true); // List.empty(growable: true)
+  List<TodoElement> _todos =
+      List.empty(growable: true); // List.empty(growable: true)
 
   addItem(String item) {
     TodoElement(item);
@@ -32,8 +34,9 @@ class TodoListModel extends ChangeNotifier {
   }
 
   bool addNewList(String name) {
-    if(!myLists.containsKey(name)) {
+    if (!myLists.containsKey(name)) {
       myLists[name] = List.empty(growable: true);
+      save();
       notifyListeners();
       return true;
     }
@@ -57,8 +60,8 @@ class TodoListModel extends ChangeNotifier {
   }
 
   TodoElement getItems(int index) {
-    if(index == -1) {
-      return TodoElement(''); 
+    if (index == -1) {
+      return TodoElement('');
     }
     return _todos.elementAt(index);
   }
@@ -68,14 +71,14 @@ class TodoListModel extends ChangeNotifier {
   }
 
   toggleCheck(int index) {
-    if(index != -1) {
+    if (index != -1) {
       _todos[index].checked = !_todos[index].checked;
       notifyListeners();
     }
   }
 
   insertOrUpdate(int index, String newValue) {
-    if(index == -1) {
+    if (index == -1) {
       addItem(newValue);
     } else {
       update(index, newValue);
@@ -91,7 +94,7 @@ class TodoListModel extends ChangeNotifier {
     _todos.clear();
     notifyListeners();
   }
-  
+
   remove(int index) {
     _todos.removeAt(index);
     notifyListeners();
@@ -106,8 +109,8 @@ class TodoListModel extends ChangeNotifier {
     // ToDo sauvegarder activeListName et ses items (myList)
     Box box = Hive.box<TodoList>(MyApp.BOXNAME);
     TodoList list =
-    await box.values.firstWhere((element) => element.name == activeListName)
-        ?..elements = _todos
-        ..save();
+        await box.values.firstWhere((element) => element.name == activeListName)
+          ?..elements = _todos
+          ..save();
   }
 }

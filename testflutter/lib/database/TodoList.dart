@@ -3,7 +3,7 @@ import 'package:testflutter/database/TodoElement.dart';
 
 part 'TodoList.g.dart';
 
-@HiveType(typeId: 2)
+@HiveType(typeId: 1)
 class TodoList extends HiveObject {
   @HiveField(0)
   late String name;
