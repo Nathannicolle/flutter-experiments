@@ -15,6 +15,7 @@ class UsersList extends StatelessWidget {
           UserQuerySnapshot querySnapshot = snapshot.requireData;
 
           return ListView.builder(
+            shrinkWrap: true,
             itemCount: querySnapshot.docs.length,
             itemBuilder: (context, index) {
               // Access the User instance

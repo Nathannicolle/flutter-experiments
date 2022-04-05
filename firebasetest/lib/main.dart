@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebasetest/components/TimersList.dart';
 import 'package:firebasetest/components/UsersList.dart';
 import 'package:firebasetest/models/User.dart';
 import 'package:flutter/material.dart';
@@ -96,10 +97,12 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
-        child: UsersList()
+        child: Column(
+          children: [UsersList(), TimersList()],
+        )
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: usersRef.add(name: 'Rtest', age: 45),
+        onPressed: (){usersRef.add(User(name: 'test', age: 43));},
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.

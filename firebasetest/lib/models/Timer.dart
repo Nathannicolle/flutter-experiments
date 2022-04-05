@@ -5,7 +5,9 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore_odm/annotation.dart';
+import 'package:cloud_firestore_odm/cloud_firestore_odm.dart';
 
 part 'Timer.g.dart';
 
@@ -34,14 +36,14 @@ class Timer {
 
   factory Timer.fromJson(Map<String, dynamic> json) {
     Timer t = Timer(
-      name: json["name"],
-      description: json["description"],
-      duee: json["duee"],
-      statut: json["statut"],
-      visible: json["visible"],
-      ordre: json["ordre"],
+      name: json["name"]??'',
+      description: json["description"]??'',
+      duee: json["duee"]??0,
+      statut: json["statut"]??false,
+      visible: json["visible"]??false,
+      ordre: json["ordre"]??0,
     );
-    t.activationDate = DateTime.parse(json["activationDate"]);
+    t.activationDate = DateTime.tryParse(json["activationDate"])!;
     return t;
   }
 

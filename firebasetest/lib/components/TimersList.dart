@@ -2,7 +2,7 @@ import 'package:cloud_firestore_odm/cloud_firestore_odm.dart';
 import 'package:firebasetest/models/Timer.dart';
 import 'package:flutter/cupertino.dart';
 
-class TimerList extends StatelessWidget {
+class TimersList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FirestoreBuilder<TimerQuerySnapshot>(
@@ -15,6 +15,7 @@ class TimerList extends StatelessWidget {
           TimerQuerySnapshot querySnapshot = snapshot.requireData;
 
           return ListView.builder(
+            shrinkWrap: true,
             itemCount: querySnapshot.docs.length,
             itemBuilder: (context, index) {
               // Access the User instance
