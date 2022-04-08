@@ -1,10 +1,12 @@
 import 'dart:developer';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebasetest/components/TimersList.dart';
 import 'package:firebasetest/components/UsersList.dart';
-import 'package:firebasetest/models/User.dart';
+import 'package:firebasetest/components/pages/UserPage.dart';
+import 'package:firebasetest/models/User.dart' as MyUser;
 import 'package:flutter/material.dart';
 
 Future<void> main() async {
@@ -18,9 +20,9 @@ Future<void> main() async {
   await Firebase.initializeApp(options: config);
   // Log(FirebaseDatabase.instance.toString());
 
-  final querySnapshot = await UserCollectionReference().get();
+  final querySnapshot = await MyUser.UserCollectionReference().get();
   final allUsers = querySnapshot.docs.map((userData) => userData.data).toList();
-  log(allUsers.toString());
+  // log(allUsers.toString());
   runApp(const MyApp());
 }
 class MyApp extends StatelessWidget {
@@ -30,6 +32,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute: '/',
+      routes: <String, WidgetBuilder>{
+        '/': (BuildContext context)=>MyHomePage(title: 'Home'),
+        UserPage.routeName: (BuildContext context) => UserPage(title: "UserPage"),
+      },
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -43,7 +50,6 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -68,7 +74,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-
+  String _currentUsername = "";
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -98,14 +104,58 @@ class _MyHomePageState extends State<MyHomePage> {
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Column(
-          children: [UsersList(), TimersList()],
+          children: [UsersList(), TimersList(), TextButton(onPressed: () { testConnection('test@test.fr', 'test1234'); }, child: Text("Connexion")), TextButton(onPressed: () { disconnect(); }, child: Text("Déconnexion"))],
         )
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){usersRef.add(User(name: 'test', age: 43));},
+        onPressed: (){
+            MyUser.usersRef.add(MyUser.User(name: 'test', age: 43));
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+
+  testConnection(String emailAddress, String password) async {
+    try {
+      final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailAddress,
+        password: password,
+      );
+      setState(() {
+        _currentUsername = FirebaseAuth.instance.currentUser!.email??'';
+      });
+
+      Navigator.pushNamed(context, UserPage.routeName);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  disconnect() {
+    FirebaseAuth.instance.signOut();
+    setState(() {
+      _currentUsername='';
+    });
+  }
+
+  checkConnection() {
+    FirebaseAuth.instance
+        .authStateChanges()
+        .listen((User? user) {
+      if (user == null) {
+        print('User is currently signed out!');
+      } else {
+        print('User is signed in!');
+      }
+    });
+  }
+
 }
