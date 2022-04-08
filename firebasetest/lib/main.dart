@@ -5,8 +5,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebasetest/components/TimersList.dart';
 import 'package:firebasetest/components/UsersList.dart';
-import 'package:firebasetest/components/pages/UserPage.dart';
 import 'package:firebasetest/models/User.dart' as MyUser;
+import 'package:firebasetest/routes/UserPage.dart';
+import 'package:firebasetest/routes/AppRouter.dart';
 import 'package:flutter/material.dart';
 
 Future<void> main() async {
@@ -18,6 +19,7 @@ Future<void> main() async {
       projectId: "multi-timer-5d435"
   );
   await Firebase.initializeApp(options: config);
+  checkConnection();
   // Log(FirebaseDatabase.instance.toString());
 
   final querySnapshot = await MyUser.UserCollectionReference().get();
@@ -33,10 +35,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       initialRoute: '/',
-      routes: <String, WidgetBuilder>{
-        '/': (BuildContext context)=>MyHomePage(title: 'Home'),
-        UserPage.routeName: (BuildContext context) => UserPage(title: "UserPage"),
-      },
+      routes: AppRouter.getRoutes(),
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -145,17 +144,16 @@ class _MyHomePageState extends State<MyHomePage> {
       _currentUsername='';
     });
   }
+}
 
-  checkConnection() {
-    FirebaseAuth.instance
-        .authStateChanges()
-        .listen((User? user) {
-      if (user == null) {
-        print('User is currently signed out!');
-      } else {
-        print('User is signed in!');
-      }
-    });
-  }
-
+checkConnection() {
+  FirebaseAuth.instance
+      .authStateChanges()
+      .listen((User? user) {
+    if (user == null) {
+      print('User is currently signed out!');
+    } else {
+      print('User is signed in!');
+    }
+  });
 }
