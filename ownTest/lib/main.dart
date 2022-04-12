@@ -284,7 +284,16 @@ class ThirdRoute extends State<ThirdStatefulWidget> {
                             ))
                         )
                       },
-                  child: const Text('More information'))
+                  child: const Text('More information')
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Chip(backgroundColor: Colors.blueAccent, label: const Text('Test1')),
+                    Chip(backgroundColor: Colors.blueAccent, label: const Text('Test2')),
+                    Chip(backgroundColor: Colors.blueAccent, label: const Text('Test3')),
+                  ]
+              )
             ]),
           )))),
       bottomNavigationBar: BottomNavigationBar(
