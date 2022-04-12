@@ -270,7 +270,21 @@ class ThirdRoute extends State<ThirdStatefulWidget> {
                 textScaleFactor: 2,
               ),
               TextButton(
-                  onPressed: _launchURL, child: const Text('Go to website'))
+                  onPressed: _launchURL, child: const Text('Go to website')),
+              TextButton(
+                  onPressed: () => {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            backgroundColor: Colors.amber,
+                            duration: const Duration(seconds: 8),
+                            content: const Text('Ohhh nice a snackbar !'),
+                            action: SnackBarAction(
+                                label: 'Cancel',
+                                onPressed: () {},
+                                textColor: Colors.red
+                            ))
+                        )
+                      },
+                  child: const Text('More information'))
             ]),
           )))),
       bottomNavigationBar: BottomNavigationBar(
