@@ -280,20 +280,17 @@ class ThirdRoute extends State<ThirdStatefulWidget> {
                             action: SnackBarAction(
                                 label: 'Cancel',
                                 onPressed: () {},
-                                textColor: Colors.red
-                            ))
-                        )
+                                textColor: Colors.red)))
                       },
-                  child: const Text('More information')
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Chip(backgroundColor: Colors.blueAccent, label: const Text('Test1')),
-                    Chip(backgroundColor: Colors.blueAccent, label: const Text('Test2')),
-                    Chip(backgroundColor: Colors.blueAccent, label: const Text('Test3')),
-                  ]
-              )
+                  child: const Text('More information')),
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                ActionChip(
+                    label: const Text('PHP'),
+                    onPressed: () => { Navigator.push(context, MaterialPageRoute(builder: (context) => const PhpcategoryStatefulWidget())) }
+                ),
+                ActionChip(label: const Text('JS'), onPressed: () => {}),
+                ActionChip(label: const Text('Framework'), onPressed: () => {}),
+              ])
             ]),
           )))),
       bottomNavigationBar: BottomNavigationBar(
@@ -378,7 +375,7 @@ class FourthStatefulWidget extends StatefulWidget {
   State<FourthStatefulWidget> createState() => FourthRoute();
 }
 
-// ThirdPage (News)
+// FourthPage (Account)
 class FourthRoute extends State<FourthStatefulWidget>
     with TickerProviderStateMixin {
   int _selectedIndex = 3;
@@ -433,6 +430,142 @@ class FourthRoute extends State<FourthStatefulWidget>
         onTap: _onItemTapped,
       ),
     );
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+      switch (_selectedIndex) {
+        case 0:
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const MyStatefulWidget()),
+          );
+          break;
+        case 1:
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const SecondStatefulWidget()),
+          );
+          break;
+        case 2:
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const ThirdStatefulWidget()),
+          );
+          break;
+        case 3:
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const FourthStatefulWidget()),
+          );
+          break;
+      }
+    });
+  }
+}
+
+// Sixth page (PHP category)
+class PhpcategoryStatefulWidget extends StatefulWidget {
+  const PhpcategoryStatefulWidget({Key? key}) : super(key: key);
+
+  @override
+  State<PhpcategoryStatefulWidget> createState() => Phpcategory();
+}
+
+class Phpcategory extends State<PhpcategoryStatefulWidget> {
+  int _selectedIndex = 2;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        color: Colors.green,
+          child: Column(
+        children: [
+          Text('PHP Category Page'),
+          Chip(label: const Text('PHP')),
+          Card(
+            color: Color.fromRGBO(238, 226, 223, 1),
+            elevation: 2,
+            child: Column(children: <Widget>[
+              Image.asset(
+                'assets/images/proxmox.png',
+                height: 300,
+              ),
+              Text(
+                'This is the logo of our proxmox pannel. Wich is a project with Ubiquity framework developed with PHP.',
+                textScaleFactor: 2,
+              ),
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                ActionChip(label: const Text('PHP'), onPressed: () => {}),
+                ActionChip(label: const Text('JS'), onPressed: () => {}),
+                ActionChip(label: const Text('Framework'), onPressed: () => {}),
+              ])
+            ]),
+          ),
+          Card(
+            color: Color.fromRGBO(238, 226, 223, 1),
+            elevation: 2,
+            child: Column(children: <Widget>[
+              Image.asset(
+                'assets/images/logo_V1.png',
+                height: 300,
+              ),
+              Text(
+                'This is the logo of my own website. It\'s developed with HTML/CSS, PHP and JS',
+                textScaleFactor: 2,
+              ),
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                ActionChip(label: const Text('PHP'), onPressed: () => {}),
+                ActionChip(label: const Text('JS'), onPressed: () => {}),
+                ActionChip(label: const Text('HTML'), onPressed: () => {}),
+                ActionChip(label: const Text('CSS'), onPressed: () => {})
+              ])
+            ]),
+          )
+        ],
+      )),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+            backgroundColor: Colors.black,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school),
+            label: 'School',
+            backgroundColor: Colors.black,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.newspaper),
+            label: 'News',
+            backgroundColor: Colors.black,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle),
+            label: 'Account',
+            backgroundColor: Colors.black,
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.amber[800],
+        onTap: _onItemTapped,
+      ),
+    );
+  }
+
+  _launchURL() async {
+    const url = 'http://vm-1.sts-sio-caen.info/';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   void _onItemTapped(int index) {
