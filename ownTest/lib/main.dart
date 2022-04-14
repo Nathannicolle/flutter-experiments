@@ -45,6 +45,18 @@ class MyStatefulWidget extends StatefulWidget {
 // FirstPage (Home)
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
+  final currentHour = DateTime.now().hour;
+
+  showHourMessage() {
+    if (currentHour >= 0 && currentHour <= 7) {
+      return const Text('Bonne nuit', textScaleFactor: 3, style: TextStyle(fontWeight: FontWeight.bold));
+    } else if (currentHour <= 23 && currentHour >= 18) {
+      return const Text('Bonsoir', textScaleFactor: 3, style: TextStyle(fontWeight: FontWeight.bold));
+    } else {
+      return const Text('Bonjour', textScaleFactor: 3, style: TextStyle(fontWeight: FontWeight.bold));
+    }
+  }
+
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
@@ -109,6 +121,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           child: Align(
             child: Container(
                 child: Column(children: [
+              showHourMessage(),
               Text('Welcome on this app - Home page',
                   textAlign: TextAlign.center,
                   textDirection: TextDirection.ltr,
