@@ -108,13 +108,15 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           color: Colors.blue,
           child: Align(
             child: Container(
-                child: Text('Welcome on this app - Home page',
-                    textAlign: TextAlign.center,
-                    textDirection: TextDirection.ltr,
-                    textScaleFactor: 3,
-                    style: TextStyle(
-                      color: Colors.black,
-                    ))),
+                child: Column(children: [
+              Text('Welcome on this app - Home page',
+                  textAlign: TextAlign.center,
+                  textDirection: TextDirection.ltr,
+                  textScaleFactor: 3,
+                  style: TextStyle(
+                    color: Colors.black,
+                  ))
+            ])),
           )),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -286,8 +288,13 @@ class ThirdRoute extends State<ThirdStatefulWidget> {
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 ActionChip(
                     label: const Text('PHP'),
-                    onPressed: () => { Navigator.push(context, MaterialPageRoute(builder: (context) => const PhpcategoryStatefulWidget())) }
-                ),
+                    onPressed: () => {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const PhpcategoryStatefulWidget()))
+                        }),
                 ActionChip(label: const Text('JS'), onPressed: () => {}),
                 ActionChip(label: const Text('Framework'), onPressed: () => {}),
               ])
@@ -483,52 +490,53 @@ class Phpcategory extends State<PhpcategoryStatefulWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.green,
+          color: Colors.green,
           child: Column(
-        children: [
-          Text('PHP Category Page'),
-          Chip(label: const Text('PHP')),
-          Card(
-            color: Color.fromRGBO(238, 226, 223, 1),
-            elevation: 2,
-            child: Column(children: <Widget>[
-              Image.asset(
-                'assets/images/proxmox.png',
-                height: 300,
+            children: [
+              Text('PHP Category Page'),
+              Chip(label: const Text('PHP')),
+              Card(
+                color: Color.fromRGBO(238, 226, 223, 1),
+                elevation: 2,
+                child: Column(children: <Widget>[
+                  Image.asset(
+                    'assets/images/proxmox.png',
+                    height: 300,
+                  ),
+                  Text(
+                    'This is the logo of our proxmox pannel. Wich is a project with Ubiquity framework developed with PHP.',
+                    textScaleFactor: 2,
+                  ),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    ActionChip(label: const Text('PHP'), onPressed: () => {}),
+                    ActionChip(label: const Text('JS'), onPressed: () => {}),
+                    ActionChip(
+                        label: const Text('Framework'), onPressed: () => {}),
+                  ])
+                ]),
               ),
-              Text(
-                'This is the logo of our proxmox pannel. Wich is a project with Ubiquity framework developed with PHP.',
-                textScaleFactor: 2,
-              ),
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                ActionChip(label: const Text('PHP'), onPressed: () => {}),
-                ActionChip(label: const Text('JS'), onPressed: () => {}),
-                ActionChip(label: const Text('Framework'), onPressed: () => {}),
-              ])
-            ]),
-          ),
-          Card(
-            color: Color.fromRGBO(238, 226, 223, 1),
-            elevation: 2,
-            child: Column(children: <Widget>[
-              Image.asset(
-                'assets/images/logo_V1.png',
-                height: 300,
-              ),
-              Text(
-                'This is the logo of my own website. It\'s developed with HTML/CSS, PHP and JS',
-                textScaleFactor: 2,
-              ),
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                ActionChip(label: const Text('PHP'), onPressed: () => {}),
-                ActionChip(label: const Text('JS'), onPressed: () => {}),
-                ActionChip(label: const Text('HTML'), onPressed: () => {}),
-                ActionChip(label: const Text('CSS'), onPressed: () => {})
-              ])
-            ]),
-          )
-        ],
-      )),
+              Card(
+                color: Color.fromRGBO(238, 226, 223, 1),
+                elevation: 2,
+                child: Column(children: <Widget>[
+                  Image.asset(
+                    'assets/images/logo_V1.png',
+                    height: 300,
+                  ),
+                  Text(
+                    'This is the logo of my own website. It\'s developed with HTML/CSS, PHP and JS',
+                    textScaleFactor: 2,
+                  ),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    ActionChip(label: const Text('PHP'), onPressed: () => {}),
+                    ActionChip(label: const Text('JS'), onPressed: () => {}),
+                    ActionChip(label: const Text('HTML'), onPressed: () => {}),
+                    ActionChip(label: const Text('CSS'), onPressed: () => {})
+                  ])
+                ]),
+              )
+            ],
+          )),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(

@@ -9,6 +9,8 @@ import 'package:firebasetest/models/User.dart' as MyUser;
 import 'package:firebasetest/routes/UserPage.dart';
 import 'package:firebasetest/routes/AppRouter.dart';
 import 'package:flutter/material.dart';
+import 'package:getwidget/getwidget.dart';
+import 'dart:math' as math;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -97,6 +99,10 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
+        leading: GFAvatar(
+          backgroundColor: Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+          child: Text('NN', style: TextStyle(color: Colors.white)),
+        ),
         title: Text(widget.title),
       ),
       body: Center(
